@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import com.parabolt.kadhei.entity.Subprocess;
 import com.parabolt.kadhei.service.SubprocessService;
@@ -54,8 +54,8 @@ public class SubprocessController {
 		
 	}
 	
-	@GetMapping("/subprocesses")
-	public ResponseEntity<?> getSubprocesses(@RequestParam int macroId) {
+	@GetMapping("/{macroId}/processes")
+	public ResponseEntity<?> getSubprocesses(@PathVariable int macroId) {
 		
 		List<Subprocess> macroSubs = subprocessService.getMacroProcesses(macroId);
 		return new ResponseEntity<List<Subprocess>>(macroSubs,HttpStatus.OK);
