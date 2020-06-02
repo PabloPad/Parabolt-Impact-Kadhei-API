@@ -8,12 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 
 import com.parabolt.kadhei.entity.Subprocess;
 import com.parabolt.kadhei.service.SubprocessService;
@@ -59,6 +60,32 @@ public class SubprocessController {
 		
 		List<Subprocess> macroSubs = subprocessService.getMacroProcesses(macroId);
 		return new ResponseEntity<List<Subprocess>>(macroSubs,HttpStatus.OK);
+		
+	}
+	
+	@DeleteMapping("/processes/{id}")
+	public ResponseEntity<?> deleteProcessById(@PathVariable int id) {
+		
+		Optional<Subprocess> foundProcess = subprocessService.deleteSubprocess(id);
+		if(foundProcess.isPresent()) {
+			return new ResponseEntity<Subprocess>(foundProcess.get(),HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
+	@PutMapping("/processes/{id}")
+	public ResponseEntity<?> updateProcessById(@PathVariable int id, @RequestBody Subprocess newSub) {
+		
+		Optional<Subprocess> foundProcess = subprocessService.updateSubprocess(id, newSub);
+		if(foundProcess.isPresent()) {
+			return new ResponseEntity<Subprocess>(foundProcess.get(),HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		
 	}
 	

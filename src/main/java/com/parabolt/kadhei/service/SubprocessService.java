@@ -49,4 +49,27 @@ public class SubprocessService {
 		return macroSubs;
 		
 	}
+	
+	public Optional<Subprocess> deleteSubprocess(int id) {
+		
+		Optional<Subprocess> sub = subprocessRepository.findById(id);
+		if(sub.isPresent()) {
+			subprocessRepository.deleteById(id);
+		}
+		return sub;
+	}
+	
+	public Optional<Subprocess> updateSubprocess(int id, Subprocess newSub) {
+		
+		Optional<Subprocess> optSub = subprocessRepository.findById(id);
+		if(optSub.isPresent()) {
+			Subprocess sub = optSub.get();
+			sub.setName(newSub.getName());
+			sub.setDescription(newSub.getDescription());
+			subprocessRepository.save(sub);
+			optSub = Optional.of(sub);
+		}
+		return optSub;
+	}
+	
 }

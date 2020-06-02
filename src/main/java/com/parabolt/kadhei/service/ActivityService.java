@@ -50,7 +50,28 @@ public class ActivityService {
 			return subActs;
 			
 		}
+		
+		public Optional<Activity> deleteActivity(int id) {
+			
+			Optional<Activity> act = activityRepository.findById(id);
+			if(act.isPresent()) {
+				activityRepository.deleteById(id);
+			}
+			return act;
+		}
 	
+		public Optional<Activity> updateActivity(int id, Activity newAct) {
+			
+			Optional<Activity> foundAct = activityRepository.findById(id);
+			if(foundAct.isPresent()) {
+				Activity act = foundAct.get();
+				act.setName(newAct.getName());
+				act.setDescription(newAct.getDescription());
+				activityRepository.save(act);
+				foundAct = Optional.of(act);
+			}
+			return foundAct;
+		}
 }
 
 

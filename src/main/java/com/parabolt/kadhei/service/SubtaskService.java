@@ -50,6 +50,29 @@ public class SubtaskService {
 			return subTasks;
 			
 		}
+		
+		public Optional<Subtask> deleteSubtask(int id) {
+			
+			Optional<Subtask> subtask = subtaskRepository.findById(id);
+			if(subtask.isPresent()) {
+				subtaskRepository.deleteById(id);
+			}
+			return subtask;
+		}
+		
+		public Optional<Subtask> updateSubtask(int id, Subtask newTask) {
+			
+			Optional<Subtask> foundSubtask = subtaskRepository.findById(id);
+			if(foundSubtask.isPresent()) {
+				Subtask task = foundSubtask.get();
+				task.setName(newTask.getName());
+				task.setDescription(newTask.getDescription());
+				subtaskRepository.save(task);
+				foundSubtask = Optional.of(task);
+			}
+			return foundSubtask;
+		}
+	
 	
 }
 

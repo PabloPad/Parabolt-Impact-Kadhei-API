@@ -30,4 +30,28 @@ public class MacroService {
 		
 		return macroRepository.findAll();
 	}
+	
+	public Optional<Macro> deleteMacro(int id) {
+		
+		Optional<Macro> macro = getMacroById(id);
+		if(macro.isPresent()) {
+			macroRepository.deleteById(id);
+		}
+
+		return macro;
+	}
+	
+	public Optional<Macro> updateMacro(int id, Macro newMacro) {
+		
+		Optional<Macro> foundMacro = macroRepository.findById(id);
+		if(foundMacro.isPresent()) {
+			Macro macro = foundMacro.get();
+			macro.setName(newMacro.getName());
+			macro.setDescription(newMacro.getDescription());
+			macroRepository.save(macro);
+			foundMacro = Optional.of(macro);
+		}
+		
+		return foundMacro;
+	}
 }
